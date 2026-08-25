@@ -1,21 +1,26 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
 
-
-template<class T>
-
-T max(T a, T b)
+template<typename T> struct IsPointer		//	typenameはclassと書いてもよい同じ
 {
-	return a > b ? a : b;
-}
+	static constexpr bool value = false;
+};
+
+template<typename U> struct IsPointer<U*>	//	もしポイントがついていたらこっちになる
+{
+	static constexpr bool value = true;
+};
+
+struct NotPointer :IsPointer<int>	//	上のほうを継承
+{
+
+};
 
 int main()
 {
-	float a = 10.1;
-	float b = 10.2;
+	std::cout << IsPointer<int>::value << std::endl;
+	std::cout << IsPointer<int*>::value << std::endl;
+	std::cout << IsPointer<float>::value << std::endl;
+	std::cout << IsPointer<float*>::value << std::endl;
+	std::cout << NotPointer::value << std::endl;
 
-	std::cout << "max: "<< max(a, b)<<std::endl;
-	std::cout << "max: "<< max(a, b)<<std::endl;
-	std::cout << "max: "<< max(a, b)<<std::endl;
 }
-
